@@ -1,0 +1,25 @@
+{
+  "name": "mess-management-system-api",
+  "version": "1.0.0",
+  "description": "This is the backend for mess management system that we create as a part of our major project at MNNIT Allahabad.",
+  "main": "server.js",
+  "scripts": {
+    "start:dev": "SET NODE_ENV=development& nodemon server.js",
+    "start:prod": "SET NODE_ENV=production& nodemon server.js"
+  },
+  "author": "Harsh Gyanchandani",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.5",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.8.0",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
