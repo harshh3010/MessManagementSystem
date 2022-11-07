@@ -3,6 +3,7 @@ const morgan = require("morgan");
 const AppError = require("./utilities/appError");
 const errorController = require("./controllers/errorController");
 const userRoutes = require("./routes/userRoutes");
+const messRoutes = require("./routes/messRoutes");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(express.static("../Frontend/mess-management-system-ui/build"));
 
 // Exposing different routes for rest API
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/mess", messRoutes);
 
 // In case user searches for some route not defined by us, send a 404 error
 app.all("*", (req, res, next) => {
