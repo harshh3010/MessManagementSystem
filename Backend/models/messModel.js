@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const messSchema = mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please provide a name for the mess"],
+    required: [true, "Please provide a name for the mess."],
     trim: true,
-    minlength: [2, "Size of name must be at least 2"],
-    maxlength: [40, "Size of name must be at most 40"],
+    minlength: [2, "Size of name must be at least 2."],
+    maxlength: [40, "Size of name must be at most 40."],
   },
   nameSlug: {
     type: String,
@@ -16,7 +16,7 @@ const messSchema = mongoose.Schema({
   incharge: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: [true, "Every mess must have an incharge"],
+    required: [true, "Every mess must have an incharge."],
   },
   committeeMembers: [
     {
@@ -24,6 +24,11 @@ const messSchema = mongoose.Schema({
       ref: "User",
     },
   ],
+  fee: {
+    type: mongoose.SchemaTypes.Decimal128,
+    min: [0, "Fee must be atleast 0."],
+    required: [true, "Please specify initial value of mess fee."],
+  },
 });
 
 const Mess = mongoose.model("Mess", messSchema);

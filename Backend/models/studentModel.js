@@ -12,6 +12,14 @@ const studentSchema = mongoose.Schema({
     ref: "Mess",
     required: [true, "A student must belong to some mess"],
   },
+  feeStatus: {
+    type: String,
+    enum: {
+      values: ["paid", "unpaid"],
+      message: "Mess fee status must be either paid or unpaid.",
+    },
+    default: "unpaid",
+  },
   registrationNumber: {
     type: Number,
     unique: [true, "A record with specified registration number exists"],

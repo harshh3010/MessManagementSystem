@@ -2,7 +2,6 @@ const express = require("express");
 
 const authController = require("./../controllers/authController");
 const messController = require("./../controllers/messController");
-const studentController = require("./../controllers/studentController");
 
 const router = express.Router();
 
@@ -21,7 +20,7 @@ router.post(
   "/addStudent",
   authController.protectRoute,
   authController.restrictTo("admin"),
-  studentController.addStudent
+  messController.addStudent
 );
 
 module.exports = router;
