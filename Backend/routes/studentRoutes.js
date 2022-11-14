@@ -4,14 +4,24 @@ const authController = require("./../controllers/authController");
 const messController = require("./../controllers/messController");
 const studentController = require("./../controllers/studentController");
 
-const router = express.Router();
+const router = express.Router({ mergeParams: true });
 
-// Test route
-router.post(
-  "/test",
+router.route("/").post(
+  // Post request to add a new student to a mess
+  // Only authenticated admins can perform this action
   authController.protectRoute,
-  messController.protectRoute,
-  studentController.test
+  authController.restrictTo("admin"),
+  messController.protectRouteUpdate,
+  studentController.addStudent
+);
+
+router.route("/roles").post(
+  // Post request to assign a role to some student
+  // This action can only be performed by authenticated admins
+  authController.protectRoute,
+  authController.restrictTo("admin"),
+  messController.protectRouteUpdate,
+  studentController.assignRole
 );
 
 module.exports = router;

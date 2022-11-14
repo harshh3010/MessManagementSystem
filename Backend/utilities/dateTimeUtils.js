@@ -1,3 +1,6 @@
+/**
+ * Function to validate a 24hr time string in (HH:MM format)
+ */
 exports.validate24HourTimeString = (timeString) => {
   return (
     timeString.search(/^\d{2}:\d{2}$/) != -1 &&
@@ -10,6 +13,9 @@ exports.validate24HourTimeString = (timeString) => {
   );
 };
 
+/**
+ * Function to generate a date object from a 24hr time string (HH:MM format)
+ */
 exports.getDateFrom24HourTimeString = (timeString) => {
   const [hours, minutes] = timeString.split(":");
   const date = new Date();
