@@ -5,6 +5,8 @@ const AppError = require("./../utilities/appError");
 const User = require("./../models/userModel");
 const catchAsync = require("./../utilities/catchAsync");
 const sendMail = require("./../utilities/email");
+const Student = require("../models/studentModel");
+const Mess = require("../models/messModel");
 
 // Function to issue a jwt when a user with given id is logged in
 const signIn = (id) => {
@@ -275,6 +277,20 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
 
   // Store user info in request object as it may be required later
   req.user = currentUser;
+
+  // Loading mess id for the current user (-1 if does not exist)
+  if (currentUser.role === "admin") {
+    // If current user is admin then he has access to messes where he is incharge
+    const messes = await Mess.find({ incharge: currentUser._id }).select("_id");
+    req.messes = messes.map((mess) => mess._id.toString());
+  } else {
+    // If the current user is not an admin he can have access to only one mess
+    const student = await Student.findOne({ user: currentUser._id }).select(
+      "mess"
+    );
+    if (student) req.messes = [student.mess.toString()];
+    else req.messes = [];
+  }
 
   // Grant access to the route
   next();
