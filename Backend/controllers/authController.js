@@ -282,14 +282,14 @@ exports.protectRoute = catchAsync(async (req, res, next) => {
   if (currentUser.role === "admin") {
     // If current user is admin then he has access to messes where he is incharge
     const messes = await Mess.find({ incharge: currentUser._id }).select("_id");
-    req.messes = messes.map((mess) => mess._id.toString());
+    req.user.messes = messes.map((mess) => mess._id.toString());
   } else {
     // If the current user is not an admin he can have access to only one mess
     const student = await Student.findOne({ user: currentUser._id }).select(
       "mess"
     );
-    if (student) req.messes = [student.mess.toString()];
-    else req.messes = [];
+    if (student) req.user.messes = [student.mess.toString()];
+    else req.user.messes = [];
   }
 
   // Grant access to the route

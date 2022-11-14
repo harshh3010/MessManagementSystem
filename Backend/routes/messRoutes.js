@@ -23,4 +23,13 @@ router.post(
   messController.addStudent
 );
 
+// Post request to add a new mess routine
+// Only authenticated admins and mess committee members can perform this action
+router.post(
+  "/addMessRoutine",
+  authController.protectRoute,
+  authController.restrictTo("admin", "mess-president", "mess-secretary"),
+  messController.addMessRoutine
+);
+
 module.exports = router;
