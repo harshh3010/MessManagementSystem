@@ -53,8 +53,6 @@ exports.protectRouteAccess = catchAsync(async (req, res, next) => {
  * req.params.messId
  */
 exports.protectRouteUpdate = (req, res, next) => {
-  console.log(req.params.messId);
-  console.log(req.user.messes);
   if (req.user.messes.includes(req.params.messId)) {
     next();
   } else {

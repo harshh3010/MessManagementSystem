@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const inventorySchema = mongoose.Schema({
+  mess: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Mess",
+    required: [true, "An inventory item must belong to some mess."],
+  },
   name: {
     type: String,
     required: [true, "Please provide a name for the item."],
@@ -32,7 +37,7 @@ const inventorySchema = mongoose.Schema({
     required: [true, "An item must have a unit."],
   },
   quantity: {
-    type: mongoose.SchemaTypes.Decimal128,
+    type: Number,
     default: 0,
     min: [0, "Min valid quantity is 0."],
     max: [10000, "Max valid quantity is 10000."],

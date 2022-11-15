@@ -25,7 +25,7 @@ const messSchema = mongoose.Schema({
     },
   ],
   fee: {
-    type: mongoose.SchemaTypes.Decimal128,
+    type: Number,
     min: [0, "Fee must be atleast 0."],
     required: [true, "Please specify initial value of mess fee."],
   },

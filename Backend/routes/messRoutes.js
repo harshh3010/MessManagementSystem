@@ -6,6 +6,7 @@ const messController = require("./../controllers/messController");
 const messRoutineRoutes = require("./messRoutineRoutes");
 const studentRoutes = require("./studentRoutes");
 const inventoryRoutes = require("./inventoryRoutes");
+const expenseRoutes = require("./expenseRoutes");
 
 const router = express.Router();
 
@@ -20,5 +21,6 @@ router.route("/").post(
 router.use("/:messId/routine", messRoutineRoutes);
 router.use("/:messId/student", studentRoutes);
 router.use("/:messId/inventory", inventoryRoutes);
+router.use("/:messId/expense", expenseRoutes);
 
 module.exports = router;

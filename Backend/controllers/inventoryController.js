@@ -9,8 +9,11 @@ const catchAsync = require("../utilities/catchAsync");
 exports.addInventoryItem = catchAsync(async (req, res, next) => {
   // Filtering the necessary info
   const inventoryItemObj = {
+    mess: req.params.messId,
     name: req.body.name,
-    nameSlug: slugify(String(req.body.name).toLowerCase()),
+    nameSlug: `${slugify(String(req.body.name).toLowerCase())}---${
+      req.params.messId
+    }`,
     description: req.body.description,
     brand: req.body.brand,
     unit: req.body.unit,
