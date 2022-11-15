@@ -7,6 +7,7 @@ const messRoutineRoutes = require("./messRoutineRoutes");
 const studentRoutes = require("./studentRoutes");
 const inventoryRoutes = require("./inventoryRoutes");
 const expenseRoutes = require("./expenseRoutes");
+const consumptionRoutes = require("./consumptionRoutes");
 
 const router = express.Router();
 
@@ -22,5 +23,6 @@ router.use("/:messId/routine", messRoutineRoutes);
 router.use("/:messId/student", studentRoutes);
 router.use("/:messId/inventory", inventoryRoutes);
 router.use("/:messId/expense", expenseRoutes);
+router.use("/:messId/consumption", consumptionRoutes);
 
 module.exports = router;
