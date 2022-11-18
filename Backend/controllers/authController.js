@@ -233,6 +233,14 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   });
 });
 
+exports.getLoggedInUserInfo = catchAsync(async (req, res, next) => {
+  // TODO: If logged in user is a student load more info
+  res.status(200).json({
+    status: "success",
+    data: req.user,
+  });
+});
+
 // Middleware to protect the routes such that they can be accessed by authorized users only
 exports.protectRoute = catchAsync(async (req, res, next) => {
   let token;

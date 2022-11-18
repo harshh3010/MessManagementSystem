@@ -55,3 +55,36 @@ export const setError = (error) => {
     },
   };
 };
+
+export const setLoginStatus = (status) => {
+  return {
+    type: AUTH_ACTIONS.SET_LOGIN_STATUS,
+    payload: {
+      status,
+    },
+  };
+};
+
+export const loadUserInfo = () => {
+  return {
+    type: AUTH_ACTIONS.LOAD_USER_INFO,
+  };
+};
+
+export const setLoggedInUserInfo = (user) => {
+  return {
+    type: AUTH_ACTIONS.SET_LOGGED_IN_USER_INFO,
+    payload: {
+      user,
+    },
+  };
+};
+
+export const setLoadUserInfoResponseStatus = (status) => {
+  return {
+    type: AUTH_ACTIONS.SET_LOAD_USER_INFO_RESPONSE_STATUS,
+    payload: {
+      status,
+    },
+  };
+};

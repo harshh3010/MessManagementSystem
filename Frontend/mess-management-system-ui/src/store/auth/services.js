@@ -1,4 +1,4 @@
-import { postRequest } from "../../utilities/networkUtils";
+import { getRequest, postRequest } from "../../utilities/networkUtils";
 import { AUTH_API } from "./constants";
 
 /**
@@ -13,4 +13,11 @@ export const loginRequest = async (email, password) => {
  */
 export const signupRequest = async (name, email, password) => {
   return await postRequest(AUTH_API.SIGNUP, { name, email, password }, false);
+};
+
+/**
+ * Function to fetch the logged in user's details from the sever
+ */
+export const loadUserInfoRequest = async () => {
+  return await getRequest(AUTH_API.LOAD_USER_INFO);
 };

@@ -19,4 +19,11 @@ router.post("/forgotPassword", authController.forgotPassword);
 // Reset password request
 router.post("/resetPassword/:passwordResetToken", authController.resetPassword);
 
+// Get logged in user details
+router.get(
+  "/me",
+  authController.protectRoute,
+  authController.getLoggedInUserInfo
+);
+
 module.exports = router;

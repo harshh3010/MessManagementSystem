@@ -24,4 +24,18 @@ export const postRequest = async (url, data, applyAuthHeaders = true) => {
 /**
  * Function to send a get request to a url
  */
-export const getRequest = async (url, applyAuthHeaders = true) => {};
+export const getRequest = async (url, applyAuthHeaders = true) => {
+  var headers = {};
+  if (applyAuthHeaders) {
+    const token = fetchAuthToken();
+    headers = {
+      Authorization: `Bearer ${token}`,
+    };
+  }
+  const response = await axios({
+    method: "get",
+    url: url,
+    headers: headers,
+  });
+  return response.data;
+};
