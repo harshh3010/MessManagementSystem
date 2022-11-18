@@ -5,9 +5,14 @@ import EmailField from "../components/auth/EmailField";
 import PasswordField from "../components/auth/PasswordField";
 import ConfirmPasswordField from "../components/auth/ConfirmPasswordField";
 import SignupButton from "../components/auth/SignupButton";
+import { useDispatch } from "react-redux";
+import { signup } from "../store/auth/actions";
 
 const SignupPage = () => {
+  const dispatch = useDispatch();
+
   const onSignupClicked = (event) => {
+    // TODO: Validate form
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = {
@@ -16,7 +21,7 @@ const SignupPage = () => {
       password: formData.get("password"),
       confirmPassword: formData.get("confirm-password"),
     };
-    console.log(data);
+    dispatch(signup(data.name, data.email, data.password));
   };
 
   return (

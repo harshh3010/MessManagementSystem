@@ -1,12 +1,48 @@
-import { all, takeEvery } from "redux-saga/effects";
+import { all, call, put, takeEvery } from "redux-saga/effects";
+import { RESPONSE_STATUS } from "../commons/constants";
+import {
+  setError,
+  setLoginResponseStatus,
+  setSignupResponseStatus,
+} from "./actions";
 import { AUTH_ACTIONS } from "./constants";
+import { loginRequest, signupRequest } from "./services";
 
+/**
+ * This function performs the login action.
+ * It sends a login request to the server and depending on the response
+ * it updates the redux-store
+ */
 function* login(action) {
-  console.log("Login:", action);
+  try {
+    yield put(setLoginResponseStatus(RESPONSE_STATUS.PENDING));
+    const { email, password } = action.payload;
+    const response = yield call(loginRequest, email, password);
+    // TODO: Read token from response
+    yield put(setLoginResponseStatus(RESPONSE_STATUS.SUCCESS));
+  } catch (e) {
+    yield put(setLoginResponseStatus(RESPONSE_STATUS.FAILED));
+    console.log(e);
+    yield put(setError("Unable to login!"));
+  }
 }
 
+/**
+ * This function performs the signup action.
+ * It sends a signup request to the server and depending on the response
+ * it updates the redux-store
+ */
 function* signup(action) {
-  console.log("Signup:", action);
+  try {
+    yield put(setSignupResponseStatus(RESPONSE_STATUS.PENDING));
+    const { name, email, password } = action.payload;
+    yield call(signupRequest, name, email, password);
+    yield put(setSignupResponseStatus(RESPONSE_STATUS.SUCCESS));
+  } catch (e) {
+    yield put(setSignupResponseStatus(RESPONSE_STATUS.FAILED));
+    console.log(e);
+    yield put(setError("Unable to sign up!"));
+  }
 }
 
 export default function* authSaga() {

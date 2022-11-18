@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const AppError = require("./utilities/appError");
 const errorController = require("./controllers/errorController");
 const userRoutes = require("./routes/userRoutes");
@@ -12,6 +13,13 @@ const app = express();
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
+
+// To allow requests from all origins
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // Middleware to read the body of http post request
 app.use(express.json());

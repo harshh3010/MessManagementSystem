@@ -4,3 +4,9 @@ export const RESPONSE_STATUS = {
   PENDING: "RESPONSE_STATUS_PENDING",
   NONE: "RESPONSE_STATUS_NONE",
 };
+
+export const SERVER_DETAILS = {
+  // TODO: CHANGE LATER
+  URL: "http://127.0.0.1:3000",
+  API_URL: "http://127.0.0.1:3000/api/v1",
+};

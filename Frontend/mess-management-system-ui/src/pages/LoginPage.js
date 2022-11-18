@@ -10,6 +10,7 @@ const LoginPage = () => {
   const dispatch = useDispatch();
 
   const onLoginClicked = (event) => {
+    // TODO: Validate form
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const data = {
