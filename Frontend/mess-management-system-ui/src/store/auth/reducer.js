@@ -1,5 +1,6 @@
 import { AUTH_ACTIONS } from "./constants";
 import { RESPONSE_STATUS } from "../commons/constants";
+import { removeAuthToken } from "../../utilities/storageUtils";
 
 const initialState = {
   status: {
@@ -12,6 +13,9 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   const data = action.payload;
   switch (action.type) {
+    case AUTH_ACTIONS.LOGOUT:
+      removeAuthToken();
+      return state;
     case AUTH_ACTIONS.SET_LOGIN_RESPONSE_STATUS:
       return {
         ...state,

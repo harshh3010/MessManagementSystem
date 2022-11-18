@@ -1,4 +1,5 @@
 import { all, call, put, takeEvery } from "redux-saga/effects";
+import { saveAuthToken } from "../../utilities/storageUtils";
 import { RESPONSE_STATUS } from "../commons/constants";
 import {
   setError,
@@ -18,7 +19,8 @@ function* login(action) {
     yield put(setLoginResponseStatus(RESPONSE_STATUS.PENDING));
     const { email, password } = action.payload;
     const response = yield call(loginRequest, email, password);
-    // TODO: Read token from response
+    // Saving the auth token to local storage for future use
+    saveAuthToken(response.token);
     yield put(setLoginResponseStatus(RESPONSE_STATUS.SUCCESS));
   } catch (e) {
     yield put(setLoginResponseStatus(RESPONSE_STATUS.FAILED));

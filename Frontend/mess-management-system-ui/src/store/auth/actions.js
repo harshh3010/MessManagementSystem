@@ -23,6 +23,12 @@ export const signup = (name, email, password) => {
   };
 };
 
+export const logout = () => {
+  return {
+    type: AUTH_ACTIONS.LOGOUT,
+  };
+};
+
 export const setLoginResponseStatus = (status) => {
   return {
     type: AUTH_ACTIONS.SET_LOGIN_RESPONSE_STATUS,

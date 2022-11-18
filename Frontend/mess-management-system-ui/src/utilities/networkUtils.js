@@ -1,4 +1,5 @@
 import axios from "axios";
+import { fetchAuthToken } from "./storageUtils";
 
 /**
  * Function to send a post request to a url
@@ -6,7 +7,7 @@ import axios from "axios";
 export const postRequest = async (url, data, applyAuthHeaders = true) => {
   var headers = {};
   if (applyAuthHeaders) {
-    const token = "fetch token from storage";
+    const token = fetchAuthToken();
     headers = {
       Authorization: `Bearer ${token}`,
     };
