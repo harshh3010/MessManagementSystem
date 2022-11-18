@@ -1,7 +1,7 @@
 import { AUTH_ACTIONS } from "./constants";
 
 // Login action generator
-const login = (email, password) => {
+export const login = (email, password) => {
   return {
     type: AUTH_ACTIONS.LOGIN,
     payload: {
@@ -12,7 +12,7 @@ const login = (email, password) => {
 };
 
 // Signup action generator
-const signup = (name, email, password) => {
+export const signup = (name, email, password) => {
   return {
     type: AUTH_ACTIONS.SIGNUP,
     payload: {
@@ -23,7 +23,7 @@ const signup = (name, email, password) => {
   };
 };
 
-const setLoginResponseStatus = (status) => {
+export const setLoginResponseStatus = (status) => {
   return {
     type: AUTH_ACTIONS.SET_LOGIN_RESPONSE_STATUS,
     payload: {
@@ -32,7 +32,7 @@ const setLoginResponseStatus = (status) => {
   };
 };
 
-const setSignupResponseStatus = (status) => {
+export const setSignupResponseStatus = (status) => {
   return {
     type: AUTH_ACTIONS.SET_SIGNUP_RESPONSE_STATUS,
     payload: {
@@ -41,7 +41,7 @@ const setSignupResponseStatus = (status) => {
   };
 };
 
-const setError = (error) => {
+export const setError = (error) => {
   return {
     type: AUTH_ACTIONS.SET_ERROR,
     payload: {

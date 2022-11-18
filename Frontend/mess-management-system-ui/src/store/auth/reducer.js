@@ -12,10 +12,6 @@ const initialState = {
 const authReducer = (state = initialState, action) => {
   const data = action.payload;
   switch (action.type) {
-    case AUTH_ACTIONS.LOGIN:
-      return {};
-    case AUTH_ACTIONS.SIGNUP:
-      return {};
     case AUTH_ACTIONS.SET_LOGIN_RESPONSE_STATUS:
       return {
         ...state,

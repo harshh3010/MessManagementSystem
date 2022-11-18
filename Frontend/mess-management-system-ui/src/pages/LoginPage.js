@@ -3,8 +3,12 @@ import AuthForm from "../components/auth/AuthForm";
 import EmailField from "../components/auth/EmailField";
 import PasswordField from "../components/auth/PasswordField";
 import LoginButton from "../components/auth/LoginButton";
+import { useDispatch } from "react-redux";
+import { login } from "../store/auth/actions";
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
+
   const onLoginClicked = (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -12,7 +16,7 @@ const LoginPage = () => {
       email: formData.get("email"),
       password: formData.get("password"),
     };
-    console.log(data);
+    dispatch(login(data.email, data.password));
   };
 
   return (
