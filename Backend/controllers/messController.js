@@ -30,6 +30,22 @@ exports.createMess = catchAsync(async (req, res, next) => {
 });
 
 /**
+ * To fetch all the messes of the logged-in user.
+ */
+exports.getMesses = catchAsync(async (req, res, next) => {
+  const messes = await Mess.find({
+    _id: {
+      $in: req.user.messes,
+    },
+  }).populate("incharge");
+
+  res.status(200).json({
+    status: "success",
+    data: messes,
+  });
+});
+
+/**
  * This function will be used as a middleware to restrict certain
  * routes to be accessible by only those students who have paid the
  * mess fee. This must be called after {@link authController.protectRoute}

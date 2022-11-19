@@ -11,13 +11,21 @@ const consumptionRoutes = require("./consumptionRoutes");
 
 const router = express.Router();
 
-router.route("/").post(
-  // Post request to create a new mess
-  // Only authenticated admins can perform this action
-  authController.protectRoute,
-  authController.restrictTo("admin"),
-  messController.createMess
-);
+router
+  .route("/")
+  .post(
+    // Post request to create a new mess
+    // Only authenticated admins can perform this action
+    authController.protectRoute,
+    authController.restrictTo("admin"),
+    messController.createMess
+  )
+  .get(
+    // Get request to fetch all messes
+    // Can be invoked by logged-in users only
+    authController.protectRoute,
+    messController.getMesses
+  );
 
 router.use("/:messId/routine", messRoutineRoutes);
 router.use("/:messId/student", studentRoutes);
