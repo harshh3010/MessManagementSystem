@@ -18,12 +18,27 @@ exports.addStudent = catchAsync(async (req, res, next) => {
     address: req.body.address,
   };
 
-  const newStudent = await Student.create(studentObj);
+  var newStudent = await Student.create(studentObj);
+  newStudent = await newStudent.populate("user");
 
   res.status(200).json({
     status: "success",
     message: "Student added successfully!",
     data: newStudent,
+  });
+});
+
+/**
+ * This function will load all the students that are a part of
+ * the mess specified in req url as a param.
+ */
+exports.getStudents = catchAsync(async (req, res, next) => {
+  const students = await Student.find({ mess: req.params.messId }).populate(
+    "user"
+  );
+  res.status(200).json({
+    status: "success",
+    data: students,
   });
 });
 

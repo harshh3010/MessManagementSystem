@@ -1,14 +1,17 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { loadMesses } from "../store/mess/actions";
+import AsyncLoader from "../components/ui/AsyncLoader";
 
 const HomePage = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(loadMesses());
-  }, [dispatch]);
+  const loadMessesResponseStatus = useSelector(
+    (state) => state.mess.status.loadMesses
+  );
 
-  return <div>Home Page</div>;
+  return (
+    <AsyncLoader responseStatus={loadMessesResponseStatus} action={loadMesses}>
+      <div>Home Page</div>
+    </AsyncLoader>
+  );
 };
 
 export default HomePage;

@@ -39,3 +39,12 @@ export const getRequest = async (url, applyAuthHeaders = true) => {
   });
   return response.data;
 };
+
+/**
+ * Function to replace params in url with their values
+ */
+export const getUrlWithParamsReplaced = (url, paramValues) => {
+  for (let [param, value] of paramValues) {
+    url.replace(`<<${param}>>`, value);
+  }
+};

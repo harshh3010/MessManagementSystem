@@ -1,14 +1,6 @@
-import { useLocation, matchRoutes } from "react-router-dom";
-
-const routes = [
-  { path: "/" },
-  { path: "/login" },
-  { path: "/signup" },
-  { path: "/home" },
-];
+import { useLocation } from "react-router-dom";
 
 export const useCurrentPath = () => {
   const location = useLocation();
-  const [{ route }] = matchRoutes(routes, location);
-  return route.path.trim();
+  return location.pathname;
 };
