@@ -45,7 +45,7 @@ const studentReducer = (state = initialState, action) => {
           ...state.messIdToStudentsMap,
           [data.messId]: [
             ...state.messIdToStudentsMap[data.messId],
-            ...data.students,
+            ...data.newStudents,
           ],
         },
       };

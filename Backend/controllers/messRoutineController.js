@@ -44,3 +44,15 @@ exports.addMessRoutine = catchAsync(async (req, res, next) => {
     data: newMessRoutine,
   });
 });
+
+/**
+ * Function to fetch all the mess routines corresponding to the
+ * mess specified in req url params.
+ */
+exports.getMessRoutines = catchAsync(async (req, res, next) => {
+  const messRoutines = await MessRoutine.find({ mess: req.params.messId });
+  res.status(200).json({
+    status: "success",
+    data: messRoutines,
+  });
+});

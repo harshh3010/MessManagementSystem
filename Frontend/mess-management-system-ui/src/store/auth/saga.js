@@ -9,6 +9,7 @@ import {
   setLoginStatus,
   setSignupResponseStatus,
 } from "./actions";
+import { loadUserInfo as loadLoggedInUserInfo } from "./actions";
 import { AUTH_ACTIONS, LOGIN_STATUS } from "./constants";
 import { loadUserInfoRequest, loginRequest, signupRequest } from "./services";
 
@@ -28,10 +29,7 @@ function* login(action) {
     saveAuthToken(response.token);
     yield put(setLoginResponseStatus(RESPONSE_STATUS.SUCCESS));
 
-    // Setting login status to unknown
-    // This is because an unknows status would trigger the action
-    // to load the logged in user's info from the server
-    yield put(setLoginStatus(LOGIN_STATUS.UNKNOWN));
+    yield put(loadLoggedInUserInfo());
   } catch (e) {
     yield put(setLoginResponseStatus(RESPONSE_STATUS.FAILED));
     yield put(setLoginStatus(LOGIN_STATUS.LOGGED_OUT));

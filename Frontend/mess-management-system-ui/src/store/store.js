@@ -4,6 +4,7 @@ import authReducer from "./auth/reducer";
 import rootSaga from "./saga";
 import messReducer from "./mess/reducer";
 import studentReducer from "./student/reducer";
+import messRoutineReducer from "./messRoutine/reducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -12,6 +13,7 @@ const store = configureStore({
     auth: authReducer,
     mess: messReducer,
     student: studentReducer,
+    messRoutine: messRoutineReducer,
   }),
   middleware: [sagaMiddleware],
 });
