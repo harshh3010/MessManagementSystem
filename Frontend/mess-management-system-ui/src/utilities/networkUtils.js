@@ -44,7 +44,10 @@ export const getRequest = async (url, applyAuthHeaders = true) => {
  * Function to replace params in url with their values
  */
 export const getUrlWithParamsReplaced = (url, paramValues) => {
-  for (let [param, value] of paramValues) {
-    url.replace(`<<${param}>>`, value);
-  }
+  var newUrl = url;
+  Object.keys(paramValues).forEach((param) => {
+    const value = paramValues[param];
+    newUrl = newUrl.replace(`<<${param}>>`, value);
+  });
+  return newUrl;
 };
