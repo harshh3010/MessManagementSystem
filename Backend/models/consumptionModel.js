@@ -3,6 +3,11 @@ const Inventory = require("./inventoryModel");
 const AppError = require("../utilities/appError");
 
 const consumptionSchema = mongoose.Schema({
+  mess: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Mess",
+    required: [true, "A consumption must correspond to some mess."],
+  },
   item: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Inventory",

@@ -9,6 +9,7 @@ const Consumption = require("../models/consumptionModel");
 exports.addConsumption = catchAsync(async (req, res, next) => {
   // Filtering the necessary info
   const consumptionObj = {
+    mess: req.params.messId,
     item: req.body.itemId,
     quantity: req.body.quantity,
     description: req.body.description,
@@ -21,5 +22,16 @@ exports.addConsumption = catchAsync(async (req, res, next) => {
     status: "success",
     message: "Consumption added successfully!",
     data: newConsumption,
+  });
+});
+
+/**
+ * Function to get all the consumptions of a mess
+ */
+exports.getConsumptions = catchAsync(async (req, res, next) => {
+  const consumptions = await Consumption.find({ mess: req.params.messId });
+  res.status(200).json({
+    status: "success",
+    data: consumptions,
   });
 });
