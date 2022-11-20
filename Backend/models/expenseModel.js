@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const Inventory = require("./inventoryModel");
 
 const expenseSchema = mongoose.Schema({
+  mess: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Mess",
+    required: [true, "An expense must correspond to some mess."],
+  },
   item: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Inventory",

@@ -9,6 +9,7 @@ const Expense = require("../models/expenseModel");
 exports.addExpense = catchAsync(async (req, res, next) => {
   // Filtering the necessary info
   const expenseObj = {
+    mess: req.params.messId,
     item: req.body.itemId,
     amount: req.body.amount,
     quantity: req.body.quantity,
@@ -23,5 +24,16 @@ exports.addExpense = catchAsync(async (req, res, next) => {
     status: "success",
     message: "Expense added successfully!",
     data: newExpense,
+  });
+});
+
+/**
+ * Function to get all expenses of a specified mess
+ */
+exports.getExpenses = catchAsync(async (req, res, next) => {
+  const expenses = await Expense.find({ mess: req.params.messId });
+  res.status(200).json({
+    status: "success",
+    data: expenses,
   });
 });

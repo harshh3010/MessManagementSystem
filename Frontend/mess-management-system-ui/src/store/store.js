@@ -6,6 +6,7 @@ import messReducer from "./mess/reducer";
 import studentReducer from "./student/reducer";
 import messRoutineReducer from "./messRoutine/reducer";
 import inventoryReducer from "./inventory/reducer";
+import expenseReducer from "./expense/reducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -16,6 +17,7 @@ const store = configureStore({
     student: studentReducer,
     messRoutine: messRoutineReducer,
     inventory: inventoryReducer,
+    expense: expenseReducer,
   }),
   middleware: [sagaMiddleware],
 });

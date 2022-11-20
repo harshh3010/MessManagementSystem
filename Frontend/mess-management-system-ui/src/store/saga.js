@@ -1,5 +1,6 @@
 import { all, fork } from "redux-saga/effects";
 import authSaga from "./auth/saga";
+import expenseSaga from "./expense/saga";
 import inventorySaga from "./inventory/saga";
 import messSaga from "./mess/saga";
 import messRoutineSaga from "./messRoutine/saga";
@@ -12,6 +13,7 @@ function* rootSaga() {
     fork(studentSaga),
     fork(messRoutineSaga),
     fork(inventorySaga),
+    fork(expenseSaga),
   ]);
 }
 
