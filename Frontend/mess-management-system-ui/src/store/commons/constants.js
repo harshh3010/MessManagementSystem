@@ -7,6 +7,6 @@ export const RESPONSE_STATUS = {
 
 export const SERVER_DETAILS = {
   // TODO: CHANGE LATER
-  URL: "http://127.0.0.1:3000",
-  API_URL: "http://127.0.0.1:3000/api/v1",
+  URL: "http://127.0.0.1:3001",
+  API_URL: "http://127.0.0.1:3001/api/v1",
 };

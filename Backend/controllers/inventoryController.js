@@ -27,3 +27,14 @@ exports.addInventoryItem = catchAsync(async (req, res, next) => {
     data: newInventoryItem,
   });
 });
+
+/**
+ * Function to get all items in inventory of a mess
+ */
+exports.getInventoryItems = catchAsync(async (req, res, next) => {
+  const items = await Inventory.find({ mess: req.params.messId });
+  res.status(200).json({
+    status: "success",
+    data: items,
+  });
+});
