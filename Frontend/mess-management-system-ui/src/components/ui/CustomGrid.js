@@ -9,6 +9,10 @@ import {
 } from "@syncfusion/ej2-react-grids";
 import { useRef } from "react";
 
+const comp = () => {
+  return <div>Hello</div>;
+};
+
 const CustomGrid = (props) => {
   // TODO: Add validation before adding/editing items
 
@@ -53,6 +57,7 @@ const CustomGrid = (props) => {
     allowEditing: true,
     allowAdding: true,
     allowDeleting: true,
+    showDeleteConfirmDialog: true,
     mode: "Dialog",
   };
 
