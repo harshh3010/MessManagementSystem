@@ -2,13 +2,15 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useRoutes } from "react-router-dom";
 import { useCurrentPath } from "./components/hooks/useCurrentPath";
-import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import MessPage from "./pages/MessPage";
 import PageNotFound from "./pages/PageNotFound";
 import SignupPage from "./pages/SignupPage";
 import SplashPage from "./pages/SplashPage";
 import { loadUserInfo } from "./store/auth/actions";
 import { LOGIN_STATUS } from "./store/auth/constants";
+import "./App.css";
 
 const App = () => {
   // Redirecting the user to proper page using login status
@@ -42,6 +44,7 @@ const App = () => {
   return useRoutes([
     { path: "/", element: <SplashPage /> },
     { path: "/home", element: <HomePage /> },
+    { path: "/:messId/:page", element: <MessPage /> },
     { path: "/login", element: <LoginPage /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "*", element: <PageNotFound /> },

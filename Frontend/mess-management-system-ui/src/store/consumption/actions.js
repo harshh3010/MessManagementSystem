@@ -9,10 +9,11 @@ export const loadConsumptions = (messId) => {
   };
 };
 
-export const setLoadConsumptionsResponseStatus = (status) => {
+export const setLoadConsumptionsResponseStatus = (messId, status) => {
   return {
     type: CONSUMPTION_ACTIONS.SET_LOAD_CONSUMPTIONS_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };
@@ -38,10 +39,11 @@ export const addConsumption = (messId, consumption) => {
   };
 };
 
-export const setAddConsumptionResponseStatus = (status) => {
+export const setAddConsumptionResponseStatus = (messId, status) => {
   return {
     type: CONSUMPTION_ACTIONS.SET_ADD_CONSUMPTION_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };

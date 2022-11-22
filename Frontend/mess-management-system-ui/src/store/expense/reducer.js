@@ -1,11 +1,12 @@
-import { RESPONSE_STATUS } from "../commons/constants";
 import { EXPENSE_ACTIONS } from "./constants";
 
 const initialState = {
   messIdToExpensesMap: {},
-  status: {
-    loadExpenses: RESPONSE_STATUS.NONE,
-    addExpense: RESPONSE_STATUS.NONE,
+  messIdToStatusMap: {
+    // [messId]: {
+    //   loadExpenses: RESPONSE_STATUS.NONE,
+    //   addExpense: RESPONSE_STATUS.NONE,
+    // }
   },
   error: null,
 };
@@ -16,9 +17,12 @@ const expenseReducer = (state = initialState, action) => {
     case EXPENSE_ACTIONS.SET_LOAD_EXPENSES_RESPONSE_STATUS:
       return {
         ...state,
-        status: {
-          ...state.status,
-          loadExpenses: data.status,
+        messIdToStatusMap: {
+          ...state.messIdToStatusMap,
+          [data.messId]: {
+            ...state.messIdToStatusMap[data.messId],
+            loadExpenses: data.status,
+          },
         },
       };
     case EXPENSE_ACTIONS.SET_EXPENSES:
@@ -32,9 +36,12 @@ const expenseReducer = (state = initialState, action) => {
     case EXPENSE_ACTIONS.SET_ADD_EXPENSE_RESPONSE_STATUS:
       return {
         ...state,
-        status: {
-          ...state.status,
-          addExpense: data.status,
+        messIdToStatusMap: {
+          ...state.messIdToStatusMap,
+          [data.messId]: {
+            ...state.messIdToStatusMap[data.messId],
+            addExpense: data.status,
+          },
         },
       };
     case EXPENSE_ACTIONS.UPDATE_EXPENSES:

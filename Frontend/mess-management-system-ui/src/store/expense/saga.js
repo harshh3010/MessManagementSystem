@@ -14,15 +14,15 @@ import { addExpenseRequest, loadExpensesRequest } from "./services";
  * Function to load expenses belonging to specified mess in the store
  */
 function* loadExpenses(action) {
+  const { messId } = action.payload;
   try {
-    const { messId } = action.payload;
-    yield put(setLoadExpensesResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(setLoadExpensesResponseStatus(messId, RESPONSE_STATUS.PENDING));
     const response = yield call(loadExpensesRequest, messId);
     yield put(setExpenses(messId, response.data));
-    yield put(setLoadExpensesResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(setLoadExpensesResponseStatus(messId, RESPONSE_STATUS.SUCCESS));
   } catch (e) {
     yield put(setError("Unable to load expenses!"));
-    yield put(setLoadExpensesResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(setLoadExpensesResponseStatus(messId, RESPONSE_STATUS.FAILED));
   }
 }
 
@@ -30,15 +30,15 @@ function* loadExpenses(action) {
  * This function adds a new expense for a specified mess
  */
 function* addExpense(action) {
+  const { messId, expense } = action.payload;
   try {
-    const { messId, expense } = action.payload;
-    yield put(setAddExpenseResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(setAddExpenseResponseStatus(messId, RESPONSE_STATUS.PENDING));
     const response = yield call(addExpenseRequest, messId, expense);
     yield put(updateExpenses(messId, [response.data]));
-    yield put(setAddExpenseResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(setAddExpenseResponseStatus(messId, RESPONSE_STATUS.SUCCESS));
   } catch (e) {
     yield put(setError("Unable to add a new expense!"));
-    yield put(setAddExpenseResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(setAddExpenseResponseStatus(messId, RESPONSE_STATUS.FAILED));
   }
 }
 

@@ -9,10 +9,11 @@ export const loadItems = (messId) => {
   };
 };
 
-export const setLoadItemsResponseStatus = (status) => {
+export const setLoadItemsResponseStatus = (messId, status) => {
   return {
     type: INVENTORY_ACTIONS.SET_LOAD_ITEMS_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };
@@ -38,10 +39,11 @@ export const addItem = (messId, item) => {
   };
 };
 
-export const setAddItemResponseStatus = (status) => {
+export const setAddItemResponseStatus = (messId, status) => {
   return {
     type: INVENTORY_ACTIONS.SET_ADD_ITEM_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };

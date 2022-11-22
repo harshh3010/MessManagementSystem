@@ -1,11 +1,12 @@
-import { RESPONSE_STATUS } from "../commons/constants";
 import { INVENTORY_ACTIONS } from "./constants";
 
 const initialState = {
   messIdToInventoryMap: {},
-  status: {
-    loadItems: RESPONSE_STATUS.NONE,
-    addItem: RESPONSE_STATUS.NONE,
+  messIdToStatusMap: {
+    // [messId]: {
+    //   loadItems: RESPONSE_STATUS.NONE,
+    //   addItem: RESPONSE_STATUS.NONE,
+    // }
   },
   error: null,
 };
@@ -16,9 +17,12 @@ const inventoryReducer = (state = initialState, action) => {
     case INVENTORY_ACTIONS.SET_LOAD_ITEMS_RESPONSE_STATUS:
       return {
         ...state,
-        status: {
-          ...state.status,
-          loadItems: data.status,
+        messIdToStatusMap: {
+          ...state.messIdToStatusMap,
+          [data.messId]: {
+            ...state.messIdToStatusMap[data.messId],
+            loadItems: data.status,
+          },
         },
       };
     case INVENTORY_ACTIONS.SET_ITEMS:
@@ -32,9 +36,12 @@ const inventoryReducer = (state = initialState, action) => {
     case INVENTORY_ACTIONS.SET_ADD_ITEM_RESPONSE_STATUS:
       return {
         ...state,
-        status: {
-          ...state.status,
-          addItem: data.status,
+        messIdToStatusMap: {
+          ...state.messIdToStatusMap,
+          [data.messId]: {
+            ...state.messIdToStatusMap[data.messId],
+            addItem: data.status,
+          },
         },
       };
     case INVENTORY_ACTIONS.UPDATE_ITEMS:

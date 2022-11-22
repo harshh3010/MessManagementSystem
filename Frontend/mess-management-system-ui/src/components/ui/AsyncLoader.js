@@ -20,7 +20,7 @@ const AsyncLoader = (props) => {
         break;
       default:
         setScreenState("loading");
-        dispatch(props.action());
+        dispatch(props.action);
         break;
     }
   }, [dispatch, props]);

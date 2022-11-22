@@ -14,15 +14,21 @@ import { addConsumptionRequest, loadConsumptionsRequest } from "./services";
  * Function to load consumptions belonging to specified mess in the store
  */
 function* loadConsumptions(action) {
+  const { messId } = action.payload;
   try {
-    const { messId } = action.payload;
-    yield put(setLoadConsumptionsResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(
+      setLoadConsumptionsResponseStatus(messId, RESPONSE_STATUS.PENDING)
+    );
     const response = yield call(loadConsumptionsRequest, messId);
     yield put(setConsumptions(messId, response.data));
-    yield put(setLoadConsumptionsResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(
+      setLoadConsumptionsResponseStatus(messId, RESPONSE_STATUS.SUCCESS)
+    );
   } catch (e) {
     yield put(setError("Unable to load consumptions!"));
-    yield put(setLoadConsumptionsResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(
+      setLoadConsumptionsResponseStatus(messId, RESPONSE_STATUS.FAILED)
+    );
   }
 }
 
@@ -30,15 +36,15 @@ function* loadConsumptions(action) {
  * This function adds a new consumption for a specified mess
  */
 function* addConsumption(action) {
+  const { messId, consumption } = action.payload;
   try {
-    const { messId, consumption } = action.payload;
-    yield put(setAddConsumptionResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(setAddConsumptionResponseStatus(messId, RESPONSE_STATUS.PENDING));
     const response = yield call(addConsumptionRequest, messId, consumption);
     yield put(updateConsumptions(messId, [response.data]));
-    yield put(setAddConsumptionResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(setAddConsumptionResponseStatus(messId, RESPONSE_STATUS.SUCCESS));
   } catch (e) {
     yield put(setError("Unable to add a new consumption!"));
-    yield put(setAddConsumptionResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(setAddConsumptionResponseStatus(messId, RESPONSE_STATUS.FAILED));
   }
 }
 

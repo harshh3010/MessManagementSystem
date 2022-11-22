@@ -9,10 +9,11 @@ export const loadExpenses = (messId) => {
   };
 };
 
-export const setLoadExpensesResponseStatus = (status) => {
+export const setLoadExpensesResponseStatus = (messId, status) => {
   return {
     type: EXPENSE_ACTIONS.SET_LOAD_EXPENSES_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };
@@ -38,10 +39,11 @@ export const addExpense = (messId, expense) => {
   };
 };
 
-export const setAddExpenseResponseStatus = (status) => {
+export const setAddExpenseResponseStatus = (messId, status) => {
   return {
     type: EXPENSE_ACTIONS.SET_ADD_EXPENSE_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };

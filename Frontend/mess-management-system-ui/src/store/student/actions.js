@@ -9,10 +9,11 @@ export const loadStudents = (messId) => {
   };
 };
 
-export const setLoadStudentsResponseStatus = (status) => {
+export const setLoadStudentsResponseStatus = (messId, status) => {
   return {
     type: STUDENT_ACTIONS.SET_LOAD_STUDENTS_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };
@@ -38,10 +39,11 @@ export const addStudent = (messId, student) => {
   };
 };
 
-export const setAddStudentResponseStatus = (status) => {
+export const setAddStudentResponseStatus = (messId, status) => {
   return {
     type: STUDENT_ACTIONS.SET_ADD_STUDENT_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };
@@ -68,10 +70,11 @@ export const assignRole = (messId, userId, role) => {
   };
 };
 
-export const setAssignRoleResponseStatus = (status) => {
+export const setAssignRoleResponseStatus = (messId, status) => {
   return {
     type: STUDENT_ACTIONS.SET_ASSIGN_ROLE_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };

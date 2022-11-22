@@ -14,15 +14,15 @@ import { addItemRequest, loadItemsRequest } from "./services";
  * Function to load inventory items belonging to specified mess in the store
  */
 function* loadItems(action) {
+  const { messId } = action.payload;
   try {
-    const { messId } = action.payload;
-    yield put(setLoadItemsResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(setLoadItemsResponseStatus(messId, RESPONSE_STATUS.PENDING));
     const response = yield call(loadItemsRequest, messId);
     yield put(setItems(messId, response.data));
-    yield put(setLoadItemsResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(setLoadItemsResponseStatus(messId, RESPONSE_STATUS.SUCCESS));
   } catch (e) {
     yield put(setError("Unable to load inventory items!"));
-    yield put(setLoadItemsResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(setLoadItemsResponseStatus(messId, RESPONSE_STATUS.FAILED));
   }
 }
 
@@ -30,15 +30,15 @@ function* loadItems(action) {
  * This function adds a new item in inventory of specified mess
  */
 function* addItem(action) {
+  const { messId, item } = action.payload;
   try {
-    const { messId, item } = action.payload;
-    yield put(setAddItemResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(setAddItemResponseStatus(messId, RESPONSE_STATUS.PENDING));
     const response = yield call(addItemRequest, messId, item);
     yield put(updateItems(messId, [response.data]));
-    yield put(setAddItemResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(setAddItemResponseStatus(messId, RESPONSE_STATUS.SUCCESS));
   } catch (e) {
     yield put(setError("Unable to add a new item in inventory!"));
-    yield put(setAddItemResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(setAddItemResponseStatus(messId, RESPONSE_STATUS.FAILED));
   }
 }
 
