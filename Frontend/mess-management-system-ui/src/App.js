@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useRoutes } from "react-router-dom";
 import { useCurrentPath } from "./components/hooks/useCurrentPath";
 import LoginPage from "./pages/LoginPage";
-import HomePage from "./pages/HomePage";
 import MessPage from "./pages/MessPage";
 import PageNotFound from "./pages/PageNotFound";
 import SignupPage from "./pages/SignupPage";
@@ -43,8 +42,13 @@ const App = () => {
 
   return useRoutes([
     { path: "/", element: <SplashPage /> },
-    { path: "/home", element: <HomePage /> },
-    { path: "/:messId/:page", element: <MessPage /> },
+    { path: "/home", element: <MessPage page="routines" /> },
+    { path: "/summary", element: <MessPage page="summary" /> },
+    { path: "/expenses", element: <MessPage page="expenses" /> },
+    { path: "/consumption", element: <MessPage page="consumption" /> },
+    { path: "/students", element: <MessPage page="students" /> },
+    { path: "/inventory", element: <MessPage page="inventory" /> },
+    { path: "/routines", element: <MessPage page="routines" /> },
     { path: "/login", element: <LoginPage /> },
     { path: "/signup", element: <SignupPage /> },
     { path: "*", element: <PageNotFound /> },

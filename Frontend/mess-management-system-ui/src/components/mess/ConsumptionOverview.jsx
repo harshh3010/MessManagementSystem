@@ -1,11 +1,11 @@
 import Stacked from "./Charts/Stacked";
 
-const ConsumptionOverview = () => {
+const ConsumptionOverview = (props) => {
   return (
     <div className="col-span-2 container p-8 bg-white rounded-lg">
       <p className="text-xl font-semibold">Consumption Overview</p>
       <div className="container p-8">
-        <Stacked />
+        <Stacked messId={props.messId} />
       </div>
     </div>
   );

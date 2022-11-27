@@ -1,9 +1,15 @@
 import { Header } from "../../components/mess";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AsyncLoader from "../../components/ui/AsyncLoader";
-import { loadStudents } from "../../store/student/actions";
+import {
+  addStudent,
+  loadStudents,
+  setAddStudentResponseStatus,
+} from "../../store/student/actions";
 import CustomGrid from "../../components/ui/CustomGrid";
 import { GrHome, GrUser } from "react-icons/gr";
+import AsyncResponseToast from "../../components/ui/AsyncResponseToast";
+import { RESPONSE_STATUS } from "../../store/commons/constants";
 
 const gridStudentProfile = (props) => (
   <div className="flex items-center gap-2">
@@ -142,6 +148,10 @@ const Students = (props) => {
   const loadStudentsResponseStatus = useSelector(
     (state) => state?.student?.messIdToStatusMap?.[props.messId]?.loadStudents
   );
+  const addStudentResponseStatus = useSelector(
+    (state) => state?.student?.messIdToStatusMap?.[props.messId]?.addStudent
+  );
+
   const students = useSelector(
     (state) => state?.student?.messIdToStudentsMap?.[props.messId]
   )?.map((student) => {
@@ -156,10 +166,18 @@ const Students = (props) => {
     };
   });
 
+  const dispatch = useDispatch();
+
   return (
     <AsyncLoader
       responseStatus={loadStudentsResponseStatus}
       action={loadStudents(props.messId)}>
+      <AsyncResponseToast
+        responseStatus={addStudentResponseStatus}
+        successMessage="Student added successfully!"
+        failureMessage="Unable to add a new student!"
+        action={setAddStudentResponseStatus(props.messId, RESPONSE_STATUS.NONE)}
+      />
       <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <Header category="Page" title="Enrolled Students" />
         <CustomGrid
@@ -173,7 +191,7 @@ const Students = (props) => {
             "address",
           ]}
           allowedColumnsForEdit={["role"]}
-          onItemAdded={(item) => console.log("Added", item)}
+          onItemAdded={(item) => dispatch(addStudent(props.messId, item))}
           onItemUpdated={(item) => console.log("Updated", item)}
           onItemDeleted={(item) => console.log("Deleted", item)}
         />

@@ -3,9 +3,11 @@ import { MESS_ROUTINE_ACTIONS } from "./constants";
 
 const initialState = {
   messIdToRoutinesMap: {},
-  status: {
-    loadMessRoutines: RESPONSE_STATUS.NONE,
-    addMessRoutine: RESPONSE_STATUS.NONE,
+  messIdToStatusMap: {
+    // [messId]: {
+    //   loadMessRoutines: RESPONSE_STATUS.NONE,
+    //   addMessRoutine: RESPONSE_STATUS.NONE,
+    // },
   },
   error: null,
 };
@@ -16,9 +18,12 @@ const messRoutineReducer = (state = initialState, action) => {
     case MESS_ROUTINE_ACTIONS.SET_LOAD_MESS_ROUTINES_RESPONSE_STATUS:
       return {
         ...state,
-        status: {
-          ...state.status,
-          loadMessRoutines: data.status,
+        messIdToStatusMap: {
+          ...state.messIdToStatusMap,
+          [data.messId]: {
+            ...state.messIdToStatusMap[data.messId],
+            loadMessRoutines: data.status,
+          },
         },
       };
     case MESS_ROUTINE_ACTIONS.SET_MESS_ROUTINES:
@@ -32,9 +37,12 @@ const messRoutineReducer = (state = initialState, action) => {
     case MESS_ROUTINE_ACTIONS.SET_ADD_MESS_ROUTINES_RESPONSE_STATUS:
       return {
         ...state,
-        status: {
-          ...state.status,
-          addMessRoutine: data.status,
+        messIdToStatusMap: {
+          ...state.messIdToStatusMap,
+          [data.messId]: {
+            ...state.messIdToStatusMap[data.messId],
+            addMessRoutine: data.status,
+          },
         },
       };
     case MESS_ROUTINE_ACTIONS.UPDATE_MESS_ROUTINES:
@@ -42,10 +50,15 @@ const messRoutineReducer = (state = initialState, action) => {
         ...state,
         messIdToRoutinesMap: {
           ...state.messIdToRoutinesMap,
-          [data.messId]: [
+          [data.messId]: {
             ...state.messIdToRoutinesMap[data.messId],
-            ...data.newMessRoutines,
-          ],
+            [data.newMessRoutines[0].dayOfWeek]: [
+              ...state.messIdToRoutinesMap[data.messId][
+                data.newMessRoutines[0].dayOfWeek
+              ],
+              ...data.newMessRoutines,
+            ],
+          },
         },
       };
     case MESS_ROUTINE_ACTIONS.SET_ERROR:

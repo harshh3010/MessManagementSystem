@@ -9,47 +9,7 @@ import {
   StackingColumnSeries,
   Tooltip,
 } from "@syncfusion/ej2-react-charts";
-
-export const stackedChartData = [
-  [
-    { x: "Jan", y: 111.1 },
-    { x: "Feb", y: 127.3 },
-    { x: "Mar", y: 143.4 },
-    { x: "Apr", y: 159.9 },
-    { x: "May", y: 159.9 },
-    { x: "Jun", y: 159.9 },
-    { x: "July", y: 159.9 },
-  ],
-  [
-    { x: "Jan", y: 150.1 },
-    { x: "Feb", y: 295.3 },
-    { x: "Mar", y: 25.4 },
-    { x: "Apr", y: 1600.9 },
-    { x: "May", y: 1800.9 },
-    { x: "Jun", y: 1750.9 },
-    { x: "July", y: 140.9 },
-  ],
-];
-
-const stackedCustomSeries = [
-  {
-    dataSource: stackedChartData[0],
-    xName: "x",
-    yName: "y",
-    name: "Budget",
-    type: "StackingColumn",
-    background: "blue",
-  },
-
-  {
-    dataSource: stackedChartData[1],
-    xName: "x",
-    yName: "y",
-    name: "Expense",
-    type: "StackingColumn",
-    background: "red",
-  },
-];
+import { useSelector } from "react-redux";
 
 const stackedPrimaryXAxis = {
   majorGridLines: { width: 0 },
@@ -64,9 +24,6 @@ const stackedPrimaryXAxis = {
 
 const stackedPrimaryYAxis = {
   lineStyle: { width: 0 },
-  minimum: 100,
-  maximum: 400,
-  interval: 100,
   majorTickLines: { width: 0 },
   majorGridLines: { width: 1 },
   minorGridLines: { width: 1 },
@@ -74,7 +31,33 @@ const stackedPrimaryYAxis = {
   labelFormat: "{value}",
 };
 
-const Stacked = () => {
+const Stacked = (props) => {
+  const consumptionOverviewData = useSelector(
+    (state) =>
+      state?.reporting?.messIdToReportingDataMap?.[props.messId]
+        ?.consumptionOverviewData
+  );
+
+  const consumedData = [];
+  if (consumptionOverviewData?.consumed) {
+    Object.keys(consumptionOverviewData?.consumed).forEach((item) => {
+      consumedData.push({
+        x: item,
+        y: consumptionOverviewData.consumed[item],
+      });
+    });
+  }
+
+  const availableData = [];
+  if (consumptionOverviewData?.available) {
+    Object.keys(consumptionOverviewData?.available).forEach((item) => {
+      availableData.push({
+        x: item,
+        y: consumptionOverviewData.available[item],
+      });
+    });
+  }
+
   return (
     <ChartComponent
       id="charts"
@@ -86,9 +69,24 @@ const Stacked = () => {
       legendSettings={{ background: "white" }}>
       <Inject services={[StackingColumnSeries, Category, Legend, Tooltip]} />
       <SeriesCollectionDirective>
-        {stackedCustomSeries.map((item, index) => (
-          <SeriesDirective key={index} {...item} />
-        ))}
+        <SeriesDirective
+          key="consumption"
+          dataSource={consumedData}
+          xName={"x"}
+          yName={"y"}
+          name={"Consumed"}
+          type={"StackingColumn"}
+          background={"blue"}
+        />
+        <SeriesDirective
+          key="availability"
+          dataSource={availableData}
+          xName={"x"}
+          yName={"y"}
+          name={"Available"}
+          type={"StackingColumn"}
+          background={"red"}
+        />
       </SeriesCollectionDirective>
     </ChartComponent>
   );

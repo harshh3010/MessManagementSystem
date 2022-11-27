@@ -8,6 +8,7 @@ import messRoutineReducer from "./messRoutine/reducer";
 import inventoryReducer from "./inventory/reducer";
 import expenseReducer from "./expense/reducer";
 import consumptionReducer from "./consumption/reducer";
+import reportingReducer from "./reporting/reducer";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,6 +21,7 @@ const store = configureStore({
     inventory: inventoryReducer,
     expense: expenseReducer,
     consumption: consumptionReducer,
+    reporting: reportingReducer,
   }),
   middleware: [sagaMiddleware],
 });

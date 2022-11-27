@@ -10,15 +10,14 @@ import {
   AccumulationTooltip,
 } from "@syncfusion/ej2-react-charts";
 
-const data = [
-  { x: "Rice", y: 37 },
-  { x: "Lemon", y: 17 },
-  { x: "Sugar", y: 19 },
-  { x: "Others", y: 4 },
-  { x: "Milk", y: 11 },
-];
+const PieChart = (props) => {
+  const data = [];
+  if (props.data) {
+    Object.keys(props?.data)?.forEach((item) => {
+      data.push({ x: item, y: props?.data[item] });
+    });
+  }
 
-const PieChart = () => {
   return (
     <AccumulationChartComponent
       legendSettings={{ visible: true, background: "white" }}

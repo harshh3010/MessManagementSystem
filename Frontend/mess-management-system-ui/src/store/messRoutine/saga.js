@@ -14,15 +14,21 @@ import { addMessRoutineRequest, loadMessRoutinesRequest } from "./services";
  * Function to load mess routines belonging to specified mess in the store
  */
 function* loadMessRoutines(action) {
+  const { messId } = action.payload;
   try {
-    const { messId } = action.payload;
-    yield put(setLoadMessRoutinesResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(
+      setLoadMessRoutinesResponseStatus(messId, RESPONSE_STATUS.PENDING)
+    );
     const response = yield call(loadMessRoutinesRequest, messId);
     yield put(setMessRoutines(messId, response.data));
-    yield put(setLoadMessRoutinesResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(
+      setLoadMessRoutinesResponseStatus(messId, RESPONSE_STATUS.SUCCESS)
+    );
   } catch (e) {
     yield put(setError("Unable to load mess routines!"));
-    yield put(setLoadMessRoutinesResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(
+      setLoadMessRoutinesResponseStatus(messId, RESPONSE_STATUS.FAILED)
+    );
   }
 }
 
@@ -30,15 +36,15 @@ function* loadMessRoutines(action) {
  * This function adds a new mess routine in specified mess
  */
 function* addMessRoutine(action) {
+  const { messId, messRoutine } = action.payload;
   try {
-    const { messId, messRoutine } = action.payload;
-    yield put(setAddMessRoutineResponseStatus(RESPONSE_STATUS.PENDING));
+    yield put(setAddMessRoutineResponseStatus(messId, RESPONSE_STATUS.PENDING));
     const response = yield call(addMessRoutineRequest, messId, messRoutine);
     yield put(updateMessRoutines(messId, [response.data]));
-    yield put(setAddMessRoutineResponseStatus(RESPONSE_STATUS.SUCCESS));
+    yield put(setAddMessRoutineResponseStatus(messId, RESPONSE_STATUS.SUCCESS));
   } catch (e) {
     yield put(setError("Unable to add a new mess routine!"));
-    yield put(setAddMessRoutineResponseStatus(RESPONSE_STATUS.FAILED));
+    yield put(setAddMessRoutineResponseStatus(messId, RESPONSE_STATUS.FAILED));
   }
 }
 

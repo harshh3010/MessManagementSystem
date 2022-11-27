@@ -13,24 +13,8 @@ import {
 
 const primaryXAxis = { valueType: "Category" };
 const primaryYAxis = { labelFormat: "{value} units" };
-const data1 = [
-  { week: "Week 1", expense: 35 },
-  { week: "Week 2", expense: 34 },
-  { week: "Week 3", expense: 40 },
-  { week: "Week 4", expense: 35 },
-  { week: "Week 5", expense: 38 },
-  { week: "Week 6", expense: 25 },
-];
-const data2 = [
-  { week: "Week 1", consumption: 45 },
-  { week: "Week 2", consumption: 32 },
-  { week: "Week 3", consumption: 67 },
-  { week: "Week 4", consumption: 30 },
-  { week: "Week 5", consumption: 38 },
-  { week: "Week 6", consumption: 19 },
-];
 
-const LineChart = () => {
+const LineChart = (props) => {
   return (
     <ChartComponent
       id="line-chart"
@@ -44,18 +28,18 @@ const LineChart = () => {
       />
       <SeriesCollectionDirective>
         <SeriesDirective
-          dataSource={data1}
+          dataSource={props.purchasedData}
           xName="week"
-          yName="expense"
+          yName="quantity"
           name="Purchased"
           width="2"
           marker={{ visible: true, width: 10, height: 10 }}
           type="Line"
         />
         <SeriesDirective
-          dataSource={data2}
+          dataSource={props.consumedData}
           xName="week"
-          yName="consumption"
+          yName="quantity"
           name="Consumed"
           width="2"
           marker={{ visible: true, width: 10, height: 10 }}

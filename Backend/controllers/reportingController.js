@@ -10,9 +10,15 @@ exports.getInventoryOverviewData = catchAsync(async (req, res, next) => {
   const items = await Inventory.find({ mess: messId });
   const itemsArr = items.map((item) => item._id.toString());
   const startDate = (await Mess.findById(messId).select("createdAt")).createdAt;
+  const itemIdToNameMap = {};
+  items.forEach((item) => {
+    itemIdToNameMap[item._id.toString()] = item.name;
+  });
 
-  console.log(itemsArr);
-  console.log(startDate);
+  const firstDate = new Date(startDate.getFullYear(), 0, 1);
+  const days = Math.floor((startDate - firstDate) / (24 * 60 * 60 * 1000));
+
+  const startWeek = Math.ceil(days / 7) - 1;
 
   var itemIdToWeeklyDataMap = {};
   for (const itemId of itemsArr) {
@@ -34,7 +40,7 @@ exports.getInventoryOverviewData = catchAsync(async (req, res, next) => {
         },
       ])
     ).map((expense) => ({
-      week: expense._id,
+      week: +expense._id - startWeek,
       quantity: expense.quantity,
     }));
 
@@ -56,13 +62,45 @@ exports.getInventoryOverviewData = catchAsync(async (req, res, next) => {
         },
       ])
     ).map((consumption) => ({
-      week: consumption._id,
+      week: +consumption._id - startWeek,
       quantity: consumption.quantity,
     }));
 
-    itemIdToWeeklyDataMap[itemId] = {
-      purchased: aggregatedExpenses,
-      consumed: aggregatedConsumption,
+    aggregatedExpenses.forEach((expense) => {
+      var add = true;
+      aggregatedConsumption.forEach((consumption) => {
+        if (consumption.week === expense.week) add = false;
+      });
+      if (add) aggregatedConsumption.push({ week: expense.week, quantity: 0 });
+    });
+
+    aggregatedConsumption.forEach((consumption) => {
+      var add = true;
+      aggregatedExpenses.forEach((expense) => {
+        if (consumption.week === expense.week) add = false;
+      });
+      if (add) aggregatedExpenses.push({ week: consumption.week, quantity: 0 });
+    });
+
+    aggregatedExpenses.sort((a, b) => a.week - b.week);
+    aggregatedConsumption.sort((a, b) => a.week - b.week);
+
+    const purchasedData = aggregatedExpenses.map((expense) => {
+      return {
+        week: `Week ${expense.week}`,
+        quantity: expense.quantity,
+      };
+    });
+    const consumedData = aggregatedConsumption.map((expense) => {
+      return {
+        week: `Week ${expense.week}`,
+        quantity: expense.quantity,
+      };
+    });
+
+    itemIdToWeeklyDataMap[itemIdToNameMap[itemId]] = {
+      purchased: purchasedData,
+      consumed: consumedData,
     };
   }
   res.status(200).json({
@@ -96,16 +134,18 @@ exports.getExpensesOverviewData = catchAsync(async (req, res, next) => {
   var rem = total;
   const data = {};
   for (var i = 0; i < len; i++) {
-    data[arr[i][0]] = ((arr[i][1] * 100.0) / total).toFixed(1);
+    data[arr[i][0]] = arr[i][1].toFixed(2);
     rem -= arr[i][1];
   }
   if (arr.length > 9) {
-    data["Others"] = ((rem * 100.0) / total).toFixed(1);
+    data["Others"] = rem.toFixed(2);
   }
-
   res.status(200).json({
     status: "success",
-    data: data,
+    data: {
+      totalExpenses: total,
+      data: data,
+    },
   });
 });
 
@@ -164,7 +204,7 @@ exports.getRecentConsumption = catchAsync(async (req, res, next) => {
   const consumption = (
     await Consumption.find({ mess: req.params.messId })
       .sort({ date: -1 })
-      .limit(6)
+      .limit(10)
       .populate("item")
   ).map((consumption) => ({
     name: consumption.item.name,

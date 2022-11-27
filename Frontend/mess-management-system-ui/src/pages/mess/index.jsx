@@ -3,3 +3,4 @@ export { default as Expenses } from "./Expenses";
 export { default as Students } from "./Students";
 export { default as Inventory } from "./Inventory";
 export { default as Consumption } from "./Consumption";
+export { default as MessRoutines } from "./MessRoutines";

@@ -3,6 +3,7 @@ const { default: slugify } = require("slugify");
 const {
   validate24HourTimeString,
   getDateFrom24HourTimeString,
+  get24HourTimeStringFromDate,
 } = require("../utilities/dateTimeUtils");
 const MessRoutine = require("../models/messRoutineModel");
 const AppError = require("../utilities/appError");
@@ -29,7 +30,7 @@ exports.addMessRoutine = catchAsync(async (req, res, next) => {
     title: req.body.title,
     titleSlug: `${slugify(String(req.body.title).toLowerCase())}---${
       req.params.messId
-    }`,
+    }---${req.body.dayOfWeek}`,
     description: req.body.description,
     dayOfWeek: req.body.dayOfWeek,
     startTime: getDateFrom24HourTimeString(req.body.startTime),
@@ -41,7 +42,14 @@ exports.addMessRoutine = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "Mess routine added successfully!",
-    data: newMessRoutine,
+    data: {
+      _id: newMessRoutine._id,
+      title: newMessRoutine.title,
+      description: newMessRoutine.description,
+      startTime: get24HourTimeStringFromDate(newMessRoutine.startTime),
+      endTime: get24HourTimeStringFromDate(newMessRoutine.endTime),
+      dayOfWeek: newMessRoutine.dayOfWeek,
+    },
   });
 });
 
@@ -50,9 +58,32 @@ exports.addMessRoutine = catchAsync(async (req, res, next) => {
  * mess specified in req url params.
  */
 exports.getMessRoutines = catchAsync(async (req, res, next) => {
-  const messRoutines = await MessRoutine.find({ mess: req.params.messId });
+  const messRoutines = await MessRoutine.find({ mess: req.params.messId }).sort(
+    { startTime: +1, endTime: +1 }
+  );
+
+  var data = {
+    Monday: [],
+    Tuesday: [],
+    Wednesday: [],
+    Thursday: [],
+    Friday: [],
+    Saturday: [],
+    Sunday: [],
+  };
+
+  messRoutines.forEach((messRoutine) => {
+    data[messRoutine.dayOfWeek].push({
+      _id: messRoutine._id,
+      title: messRoutine.title,
+      description: messRoutine.description,
+      startTime: get24HourTimeStringFromDate(messRoutine.startTime),
+      endTime: get24HourTimeStringFromDate(messRoutine.endTime),
+    });
+  });
+
   res.status(200).json({
     status: "success",
-    data: messRoutines,
+    data: data,
   });
 });

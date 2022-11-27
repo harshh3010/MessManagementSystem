@@ -3,6 +3,7 @@ import { MESS_ACTIONS } from "./constants";
 
 const initialState = {
   messes: [],
+  selectedMess: null,
   status: {
     createMess: RESPONSE_STATUS.NONE,
     loadMesses: RESPONSE_STATUS.NONE,
@@ -38,6 +39,11 @@ const messReducer = (state = initialState, action) => {
       return {
         ...state,
         messes: [...state.messes, ...data.newMesses],
+      };
+    case MESS_ACTIONS.SET_SELECTED_MESS:
+      return {
+        ...state,
+        selectedMess: data.messId,
       };
     case MESS_ACTIONS.SET_ERROR:
       return {

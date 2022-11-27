@@ -9,10 +9,11 @@ export const loadMessRoutines = (messId) => {
   };
 };
 
-export const setLoadMessRoutinesResponseStatus = (status) => {
+export const setLoadMessRoutinesResponseStatus = (messId, status) => {
   return {
     type: MESS_ROUTINE_ACTIONS.SET_LOAD_MESS_ROUTINES_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };
@@ -38,10 +39,11 @@ export const addMessRoutine = (messId, messRoutine) => {
   };
 };
 
-export const setAddMessRoutineResponseStatus = (status) => {
+export const setAddMessRoutineResponseStatus = (messId, status) => {
   return {
     type: MESS_ROUTINE_ACTIONS.SET_ADD_MESS_ROUTINES_RESPONSE_STATUS,
     payload: {
+      messId,
       status,
     },
   };

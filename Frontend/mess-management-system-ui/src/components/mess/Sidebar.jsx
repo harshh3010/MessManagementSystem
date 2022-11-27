@@ -2,45 +2,24 @@ import { Link, NavLink } from "react-router-dom";
 import { SiIfood } from "react-icons/si";
 import { MdOutlineCancel } from "react-icons/md";
 import { TooltipComponent } from "@syncfusion/ej2-react-popups";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineCalendar, AiOutlineShoppingCart } from "react-icons/ai";
 import { FiShoppingBag } from "react-icons/fi";
 import { IoMdContacts } from "react-icons/io";
 import { RiContactsLine, RiStoreFill } from "react-icons/ri";
 
 import { useStateContext } from "../../contexts/ContextProvider";
 
-const links = [
-  {
-    title: "Summary",
-    links: [
-      {
-        name: "summary",
-        icon: <FiShoppingBag />,
-      },
-    ],
-  },
-  {
-    title: "Pages",
-    links: [
-      {
-        name: "expenses",
-        icon: <AiOutlineShoppingCart />,
-      },
-      {
-        name: "consumption",
-        icon: <IoMdContacts />,
-      },
-      {
-        name: "students",
-        icon: <RiContactsLine />,
-      },
-      {
-        name: "inventory",
-        icon: <RiStoreFill />,
-      },
-    ],
-  },
-];
+const getLinksWithNullsFiltered = (links) => {
+  const res = [];
+  links.forEach((link) => {
+    const sublinks = [];
+    link.links.forEach((sublink) => {
+      if (sublink) sublinks.push(sublink);
+    });
+    if (sublinks.length !== 0) res.push({ title: link.title, links: sublinks });
+  });
+  return res;
+};
 
 const Sidebar = (props) => {
   const { currentColor, activeMenu, setActiveMenu, screenSize } =
@@ -51,6 +30,43 @@ const Sidebar = (props) => {
       setActiveMenu(false);
     }
   };
+
+  const links = [
+    {
+      title: "Summary",
+      links: [
+        props.userRole !== "student" && {
+          name: "summary",
+          icon: <FiShoppingBag />,
+        },
+      ],
+    },
+    {
+      title: "Pages",
+      links: [
+        {
+          name: "routines",
+          icon: <AiOutlineCalendar />,
+        },
+        props.userRole !== "student" && {
+          name: "expenses",
+          icon: <AiOutlineShoppingCart />,
+        },
+        props.userRole !== "student" && {
+          name: "consumption",
+          icon: <IoMdContacts />,
+        },
+        props.userRole !== "student" && {
+          name: "students",
+          icon: <RiContactsLine />,
+        },
+        props.userRole !== "student" && {
+          name: "inventory",
+          icon: <RiStoreFill />,
+        },
+      ],
+    },
+  ];
 
   const activeLink =
     "flex items-center gap-5 pl-4 pt-3 pb-2.5 rounded-lg  text-white  text-md m-2";
@@ -79,14 +95,14 @@ const Sidebar = (props) => {
             </TooltipComponent>
           </div>
           <div className="mt-10 ">
-            {links.map((item) => (
+            {getLinksWithNullsFiltered(links)?.map((item) => (
               <div key={item.title}>
                 <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
                   {item.title}
                 </p>
                 {item.links.map((link) => (
                   <NavLink
-                    to={`/${props.messId}/${link.name}`}
+                    to={`/${link.name}`}
                     key={link.name}
                     onClick={handleCloseSideBar}
                     style={({ isActive }) => ({

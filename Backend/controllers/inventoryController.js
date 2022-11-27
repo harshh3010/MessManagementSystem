@@ -17,6 +17,7 @@ exports.addInventoryItem = catchAsync(async (req, res, next) => {
     description: req.body.description,
     brand: req.body.brand,
     unit: req.body.unit,
+    quantity: 0,
   };
 
   const newInventoryItem = await Inventory.create(inventoryItemObj);

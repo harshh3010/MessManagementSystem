@@ -23,3 +23,11 @@ exports.getDateFrom24HourTimeString = (timeString) => {
   date.setMinutes(minutes);
   return date;
 };
+
+exports.get24HourTimeStringFromDate = (date) => {
+  var hours = date.getHours().toString();
+  var minutes = date.getMinutes().toString();
+  if (hours.length === 1) hours = `0${hours}`;
+  if (minutes.length === 1) minutes = `0${minutes}`;
+  return `${hours}:${minutes}`;
+};

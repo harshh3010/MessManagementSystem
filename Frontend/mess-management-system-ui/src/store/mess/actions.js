@@ -52,6 +52,15 @@ export const updateMesses = (newMesses) => {
   };
 };
 
+export const setSelectedMess = (messId) => {
+  return {
+    type: MESS_ACTIONS.SET_SELECTED_MESS,
+    payload: {
+      messId,
+    },
+  };
+};
+
 export const setError = (error) => {
   return {
     type: MESS_ACTIONS.SET_ERROR,

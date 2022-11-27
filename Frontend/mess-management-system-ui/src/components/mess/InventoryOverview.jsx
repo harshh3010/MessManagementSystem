@@ -1,43 +1,42 @@
-import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import CustomDropDown from "../ui/CustomDropDown";
 import LineChart from "./Charts/LineChart";
 
-const dropdownData = [
-  {
-    itemId: "1",
-    name: "Rice",
-  },
-  {
-    itemId: "2",
-    name: "Lemon",
-  },
-  {
-    itemId: "3",
-    name: "Sugar",
-  },
-];
+const InventoryOverview = (props) => {
+  const inventoryOverviewData = useSelector(
+    (state) =>
+      state?.reporting?.messIdToReportingDataMap?.[props.messId]
+        ?.inventoryOverviewData
+  );
 
-const DropDown = () => (
-  <div className="w-28 border-1 border-color px-2 py-1 rounded-md">
-    <DropDownListComponent
-      id="item"
-      fields={{ text: "name", value: "itemId" }}
-      style={{ border: "none", color: "white" }}
-      value="1"
-      dataSource={dropdownData}
-      popupHeight="220px"
-      popupWidth="120px"
-    />
-  </div>
-);
+  const [itemData, setItemData] = useState([]);
+  const [selectedItem, setSelectedItem] = useState(null);
 
-const InventoryOverview = () => {
+  useEffect(() => {
+    if (inventoryOverviewData) {
+      const items = Object.keys(inventoryOverviewData);
+      setItemData(items);
+      if (items.length > 0) {
+        setSelectedItem(items[0]);
+      }
+    }
+  }, [inventoryOverviewData]);
+
   return (
     <div className="col-span-3 container p-8 bg-white rounded-lg">
       <div className="flex justify-between items-center gap-2 mb-10">
         <p className="text-xl font-semibold">Inventory Overview</p>
-        <DropDown />
+        <CustomDropDown
+          selectedValue={selectedItem}
+          onValueChanged={(value) => setSelectedItem(value)}
+          data={itemData}
+        />
       </div>
-      <LineChart />
+      <LineChart
+        purchasedData={inventoryOverviewData?.[selectedItem]?.purchased}
+        consumedData={inventoryOverviewData?.[selectedItem]?.consumed}
+      />
     </div>
   );
 };
